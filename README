@@ -1,0 +1,22 @@
+This is a simple Lua library for packing and unpacking binary data.
+It exports two functions: bpack and bunpack.
+
+bpack is called as follows: bpack(F,x1,x2,...), where F is a string describing
+how the value x1, x2, ... are to be interpreted and formatted. Each letter in F consumes one of the values. The letter codes understood by bpack are:
+
+  s: string, S: size+string,
+  n: Lua number, d: double, f: float, i: int, w: short, b: byte, c: char
+
+bpack returns a (binary) string containing the values packed as described in F.
+
+bunpack is called as follows: bunpack(s,F,[init]), where s is a (binary) string
+containing data packed by pack, F is a string describing what is to
+be read from s, and the optional init marks where in s to read the values.
+
+bunpack returns one value per letter in F (the letters codes are the same as
+for bpack, except `s'); bpack also returns the position of the next unread
+position in s, which can be used as the init position in a subsequent call
+to bunpack. If the position returned by bunpack is beyond the end of s, then
+bunpack should not be called again, of course, or an error will be raised.
+
+See test.lua for examples.
