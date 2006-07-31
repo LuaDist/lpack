@@ -1,22 +1,39 @@
 This is a simple Lua library for packing and unpacking binary data.
-It exports two functions: bpack and bunpack.
 
-bpack is called as follows: bpack(F,x1,x2,...), where F is a string describing
-how the value x1, x2, ... are to be interpreted and formatted. Each letter in F consumes one of the values. The letter codes understood by bpack are:
+To try this Lua library, edit Makefile to reflect your installation of Lua.
+Then run make. This will build lpack.so and run a simple test. If everything
+is ok, install lpack.so and pack.lua in some official place. You may want to
+edit pack.lua to change the default value of SOPATH (you can also set the
+environment variable LUA_SOPATH at run time).
 
-  s: string, S: size+string,
-  n: Lua number, d: double, f: float, i: int, w: short, b: byte, c: char
+Here is a brief explanation of the files in this package:
+  lpack.c        pack library
+  pack.lua       support code
+  test.lua       test code
 
-bpack returns a (binary) string containing the values packed as described in F.
+The library adds two functions to the string library: pack and unpack.
 
-bunpack is called as follows: bunpack(s,F,[init]), where s is a (binary) string
-containing data packed by pack, F is a string describing what is to
-be read from s, and the optional init marks where in s to read the values.
+pack is called as follows: pack(F,x1,x2,...), where F is a string describing
+how the values x1, x2, ... are to be interpreted and formatted. Each letter
+in the format string F consumes one of the given values. Only values of type
+number or string are accepted. pack returns a (binary) string containing the
+values packed as described in F. The letter codes understood by pack are listed
+in lpack.c (they are inspired by Perl's codes but are not the same). Numbers
+following letter codes in F indicate repetitions.
 
-bunpack returns one value per letter in F (the letters codes are the same as
-for bpack, except `s'); bpack also returns the position of the next unread
-position in s, which can be used as the init position in a subsequent call
-to bunpack. If the position returned by bunpack is beyond the end of s, then
-bunpack should not be called again, of course, or an error will be raised.
+unpack is called as follows: unpack(s,F,[init]), where s is a (binary) string
+containing data packed as if by pack, F is a format string describing what is
+to be read from s, and the optional init marks where in s to begin reading the
+values. unpack returns one value per letter in F until F or s is exhausted
+(the letters codes are the same as for pack, except that numbers following `A'
+are interpreted as the number of characters to read into the string, not as
+repetitions).
 
-See test.lua for examples.
+The first value returned by unpack is the next unread position in s, which can
+be used as the init position in a subsequent call to unpack. This allows you to
+unpack values in a loop or in several steps. If the position returned by unpack
+is beyond the end of s, then s has been exhausted; any calls to unpack starting
+beyond the end of s will always return nil values.
+
+This code is hereby placed in the public domain.
+Please send comments, suggestions, and bug reports to lhf@tecgraf.puc-rio.br .

@@ -1,24 +1,25 @@
-if PI==nil then
- write=io.write
- strlen=string.len
- PI=math.pi
- gsub=string.gsub
- strbyte=string.byte
- format=string.format
-end
+bpack=string.pack
+bunpack=string.unpack
 
 function hex(s)
- s=gsub(s,"(.)",function (x) return format("%02X",strbyte(x)) end)
+ s=string.gsub(s,"(.)",function (x) return string.format("%02X",string.byte(x)) end)
  return s
 end
 
-s=bpack("Sidif",_VERSION,1962,4514,-1,4514)
-print(hex(s))
-write(s,"\n")
+a=bpack("Ab10n","\027Lua",5*16+0,1,4,4,4,6,8,9,9,8,3.14159265358979323846E7)
+print(hex(a))
 
-S,a,i=bunpack(s,"Si")
-print(S,a,i,strlen(s))
-x,i=bunpack(s,"d",i)
-print(x,i,strlen(s))
-_,x,i=bunpack(s,"if",i)
-print(x,i,strlen(s))
+b=string.dump(hex)
+b=string.sub(b,1,string.len(a))
+print(a==b,string.len(b))
+print(bunpack(b,"bA3b10n"))
+
+i=314159265 f="<I>I=I"
+a=bpack(f,i,i,i)
+print(hex(a))
+print(bunpack(a,f))
+
+i=3.14159265 f="<d>d=d"
+a=bpack(f,i,i,i)
+print(hex(a))
+print(bunpack(a,f))
