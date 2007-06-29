@@ -2,7 +2,7 @@
 * lpack.c
 * a Lua library for packing and unpacking binary data
 * Luiz Henrique de Figueiredo <lhf@tecgraf.puc-rio.br>
-* 31 Jul 2006 13:19:59
+* 29 Jun 2007 19:27:20
 * This code is hereby placed in the public domain.
 * with contributions from Ignacio Castaño <castanyo@yahoo.es> and
 * Roberto Ierusalimschy <roberto@inf.puc-rio.br>.
@@ -97,10 +97,10 @@ static void doswap(int swap, void *p, size_t n)
 
 static int l_unpack(lua_State *L) 		/** unpack(s,f,[init]) */
 {
- const char *s=luaL_checkstring(L,1);
+ size_t len;
+ const char *s=luaL_checklstring(L,1,&len);
  const char *f=luaL_checkstring(L,2);
  int i=luaL_optnumber(L,3,1)-1;
- size_t len=lua_strlen(L,1);
  int n=0;
  int swap=0;
  lua_pushnil(L);

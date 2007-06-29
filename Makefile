@@ -1,26 +1,26 @@
 # makefile for pack library for Lua
 
 # change these to reflect your Lua installation
-LUA= /tmp/lhf/lua-5.0
-LUAINC= $(LUA)/include
-LUALIB= $(LUA)/lib
-LUABIN= $(LUA)/bin
+LUA= /tmp/lhf/lua-5.1.2
+LUAINC= $(LUA)/src
+LUALIB= $(LUA)/src
+LUABIN= $(LUA)/src
 
-# no need to change anything below here
+# probably no need to change anything below here
 CFLAGS= $(INCS) $(WARN) -O2 $G
 WARN= -ansi -pedantic -Wall
 INCS= -I$(LUAINC)
 
 MYNAME= pack
 MYLIB= l$(MYNAME)
-T= $(MYLIB).so
+T= $(MYNAME).so
 OBJS= $(MYLIB).o
 TEST= test.lua
 
 all:	test
 
 test:	$T
-	$(LUABIN)/lua -l$(MYNAME) $(TEST)
+	$(LUABIN)/lua $(TEST)
 
 o:	$(MYLIB).o
 
@@ -38,10 +38,10 @@ doc:
 
 # distribution
 
-FTP= $(HOME)/public/ftp/lua/5.0
+FTP= $(HOME)/public/ftp/lua/5.1
 D= $(MYNAME)
 A= $(MYLIB).tar.gz
-TOTAR= Makefile,README,$(MYLIB).c,$(MYNAME).lua,test.lua
+TOTAR= Makefile,README,$(MYLIB).c,test.lua
 
 tar:	clean
 	tar zcvf $A -C .. $D/{$(TOTAR)}
