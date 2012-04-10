@@ -7,6 +7,7 @@
 project ( lpack C )
 cmake_minimum_required ( VERSION 2.6 )
 include ( dist.cmake )
+add_definitions(-DluaL_reg=luaL_Reg)
 
 install_lua_module ( pack lpack.c pack.def )
 install_data ( README )
