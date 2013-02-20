@@ -1,0 +1,28 @@
+type = "x86"
+arch = "Windows"
+author = "Luiz Henrique de Figueiredo, Ignacio Castańo, Roberto Ierusalimschy"
+depends = {
+[[lua ~> 5.1]],
+}
+
+desc = "A library for packing and unpacking binary data. The library adds two functions to the string library: pack and unpack."
+version = "5.1"
+maintainer = "Peter Drahoš"
+files = {
+Runtime = {
+[[lib\lua\pack.dll]],
+}
+,
+Data = {
+[[share\lpack\README]],
+}
+,
+Test = {
+[[share\lpack\test\test.lua]],
+}
+,
+}
+
+url = "http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/#lpack"
+name = "lpack"
+license = "Public domain"
